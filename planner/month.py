@@ -5,8 +5,7 @@ from .planning import Planning
 
 class Month(Planning):
     def __init__(self, month: int):
-        if month < 1 or month > 12:
-            raise ValueError('month must be from 1 to 12')
+        assert 1 <= month <= 12
         self.__month = month
 
     @property

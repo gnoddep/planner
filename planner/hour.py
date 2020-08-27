@@ -5,8 +5,7 @@ from .planning import Planning
 
 class Hour(Planning):
     def __init__(self, hour: int):
-        if hour < 1 or hour > 24:
-            raise ValueError('hour must be from 1 to 24')
+        assert 1 <= hour <= 24
         self.__hour = hour
 
     @property
