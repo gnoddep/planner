@@ -1,0 +1,14 @@
+Planning: of_month=OfMonth at_time=AtTime?;
+
+AtTime: 'at' time=Time;
+OfMonth: (day_of_month=DayOfMonth 'of')? months=MonthList;
+
+MonthList: months+=Month[','] | every_month?=EveryMonth;
+EveryMonth: /every\s+month/;
+
+DayOfMonth: /(?=\d*1st|\d*2nd|\d*3rd|\d*[04-9]th)(\d+)(?:st|nd|rd|th)/;
+Month: /(january|february|march|april|may|june|july|august|september|october|november|december)/;
+
+Time: hour=Hour ':' minute=Minute;
+Hour: /[01][0-9]|2[0-4]/;
+Minute: /[0-5][0-9]/;
