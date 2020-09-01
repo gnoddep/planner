@@ -17,5 +17,5 @@ class Month(Planning):
 
     def next(self, date: datetime.datetime) -> datetime.datetime:
         if date.month < self.__month:
-            return date.replace(month=self.__month, day=1, hour=0, minute=0, second=0, microsecond=0)
-        return date.replace(year=date.year + 1, month=self.__month, day=1, hour=0, minute=0, second=0, microsecond=0)
+            return datetime.datetime(year=date.year, month=self.__month, day=1, tzinfo=date.tzinfo)
+        return datetime.datetime(year=date.year + 1, month=self.__month, day=1, tzinfo=date.tzinfo)

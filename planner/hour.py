@@ -16,7 +16,6 @@ class Hour(Planning):
         return date.hour == self.__hour
 
     def next(self, date: datetime.datetime) -> datetime.datetime:
-        if date.hour < self.__hour:
-            return date.replace(hour=self.__hour, minute=0, second=0, microsecond=0)
-        else:
-            return (date + datetime.timedelta(days=1)).replace(hour=self.__hour, minute=0, second=0, microsecond=0)
+        if date.hour >= self.__hour:
+            date += datetime.timedelta(days=1)
+        return datetime.datetime(year=date.year, month=date.month, day=date.day, hour=self.__hour, tzinfo=date.tzinfo)
