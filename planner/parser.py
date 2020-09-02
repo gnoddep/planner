@@ -51,14 +51,9 @@ class Parser(object):
 
         if of_month.months.every_month:
             if of_month.day_of_month is None:
-                planning = Or(*[Month(month) for month in _MONTHS.values()])
+                planning = Month(*[month for month in _MONTHS.values()])
         else:
-            if len(of_month.months.months) == 1:
-                planning = Month(_MONTHS[of_month.months.months[0].lower()])
-            elif not of_month.months.every_month:
-                planning = Or()
-                for month in of_month.months.months:
-                    planning.add(Month(_MONTHS[month.lower()]))
+            planning = Month(*[_MONTHS[month.lower()] for month in of_month.months.months])
 
         if of_month.day_of_month is not None:
             if planning:
