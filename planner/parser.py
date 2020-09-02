@@ -37,8 +37,8 @@ class Parser(object):
         if model.of_month is not None:
             plannings.append(self.__of_month(model.of_month))
 
-        if model.at_time is not None:
-            plannings.append(Hour(int(model.at_time.time.hour)))
+        if model.times is not None:
+            plannings.append(Hour(*[int(time.hour) for time in model.times.times]))
 
         if len(plannings) == 1:
             return plannings[0]
