@@ -50,15 +50,16 @@ class Parser(object):
         planning = None
 
         if of_month.months.every_month:
-            if of_month.day_of_month is None:
+            if of_month.days_of_month is None:
                 planning = Month(*[month for month in _MONTHS.values()])
         else:
             planning = Month(*[_MONTHS[month.lower()] for month in of_month.months.months])
 
-        if of_month.day_of_month is not None:
+        if of_month.days_of_month is not None:
+            day_of_month_planning = DayOfMonth(*[int(dom) for dom in of_month.days_of_month.days_of_month])
             if planning:
-                planning = And(planning, DayOfMonth(int(of_month.day_of_month)))
+                planning = And(planning, day_of_month_planning)
             else:
-                planning = DayOfMonth(int(of_month.day_of_month))
+                planning = day_of_month_planning
 
         return planning
