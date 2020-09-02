@@ -2,8 +2,8 @@ import os
 from textx import metamodel_from_file
 from typing import List, Optional
 
-from ..planning import Planning
-from .. import And, Or, Month, DayOfMonth, Hour
+from .planning import Planning
+from . import And, Or, Month, DayOfMonth, Hour
 
 _MONTHS = {
     'january': 1,
