@@ -20,13 +20,13 @@ class And(AggregatedPlanning):
         if len(self.plannings) == 1:
             return self.plannings[0].next(date)
 
-        prev_latest_date_idx = None
+        prev_latest_date_idx = 0
         dates = [date] * len(self.plannings)
 
         while True:
             latest_date_idx = None
             for idx, planning in enumerate(self.plannings):
-                if prev_latest_date_idx is not None and planning.match(dates[prev_latest_date_idx]):
+                if planning.match(dates[prev_latest_date_idx]):
                     continue
 
                 dates[idx] = planning.next(dates[idx])
@@ -34,7 +34,7 @@ class And(AggregatedPlanning):
                 if latest_date_idx is None or dates[idx] > dates[latest_date_idx]:
                     latest_date_idx = idx
 
-            if prev_latest_date_idx is None or dates[latest_date_idx] > dates[prev_latest_date_idx]:
+            if dates[latest_date_idx] > dates[prev_latest_date_idx]:
                 prev_latest_date_idx = latest_date_idx
 
             if self.match(dates[prev_latest_date_idx]):
