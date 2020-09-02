@@ -1,28 +1,31 @@
 import datetime
 
-from .planning import Planning
+from .aggregated_planning import AggregatedPlanning
 
 
-class And(Planning):
-    def __init__(self, planning: Planning, *plannings: Planning):
-        self.__plannings = [planning] + list(plannings)
-
+class And(AggregatedPlanning):
     def match(self, date: datetime.datetime) -> bool:
-        for planning in self.__plannings:
+        if len(self.plannings) == 0:
+            raise RuntimeError('Empty And planning')
+
+        for planning in self.plannings:
             if not planning.match(date):
                 return False
         return True
 
     def next(self, date: datetime.datetime) -> datetime.datetime:
-        if len(self.__plannings) == 1:
-            return self.__plannings[0].next(date)
+        if len(self.plannings) == 0:
+            raise RuntimeError('Empty And planning')
+
+        if len(self.plannings) == 1:
+            return self.plannings[0].next(date)
 
         prev_latest_date_idx = None
-        dates = [date] * len(self.__plannings)
+        dates = [date] * len(self.plannings)
 
         while True:
             latest_date_idx = None
-            for idx, planning in enumerate(self.__plannings):
+            for idx, planning in enumerate(self.plannings):
                 if prev_latest_date_idx is not None and planning.match(dates[prev_latest_date_idx]):
                     continue
 

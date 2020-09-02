@@ -1,20 +1,23 @@
 import datetime
 
-from .planning import Planning
+from .aggregated_planning import AggregatedPlanning
 
 
-class Or(Planning):
-    def __init__(self, *plannings: Planning):
-        self.__plannings = plannings
-
+class Or(AggregatedPlanning):
     def match(self, date: datetime.datetime) -> bool:
-        for planning in self.__plannings:
+        if len(self.plannings) == 0:
+            raise RuntimeError('Empty Or planning')
+
+        for planning in self.plannings:
             if planning.match(date):
                 return True
         return False
 
     def next(self, date: datetime.datetime) -> datetime.datetime:
+        if len(self.plannings) == 0:
+            raise RuntimeError('Empty Or planning')
+
         dates = []
-        for planning in self.__plannings:
+        for planning in self.plannings:
             dates.append(planning.next(date))
         return min(dates)
