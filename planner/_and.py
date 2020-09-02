@@ -20,22 +20,12 @@ class And(AggregatedPlanning):
         if len(self.plannings) == 1:
             return self.plannings[0].next(date)
 
-        prev_latest_date_idx = 0
-        dates = [date] * len(self.plannings)
+        # If all the plannings match without without running next on them, we have to get the smallest next value and
+        # start with that (otherwise it is not the next date but the current date
+        if self.match(date):
+            date = min(planning.next(date) for planning in self.plannings)
 
-        while True:
-            latest_date_idx = None
-            for idx, planning in enumerate(self.plannings):
-                if planning.match(dates[prev_latest_date_idx]):
-                    continue
+        while not self.match(date):
+            date = max(planning.next(date) for planning in self.plannings if not planning.match(date))
 
-                dates[idx] = planning.next(dates[idx])
-
-                if latest_date_idx is None or dates[idx] > dates[latest_date_idx]:
-                    latest_date_idx = idx
-
-            if dates[latest_date_idx] > dates[prev_latest_date_idx]:
-                prev_latest_date_idx = latest_date_idx
-
-            if self.match(dates[prev_latest_date_idx]):
-                return dates[prev_latest_date_idx]
+        return date
