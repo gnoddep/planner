@@ -20,6 +20,7 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'LICENSE :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
 

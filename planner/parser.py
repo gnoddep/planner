@@ -3,7 +3,7 @@ from textx import metamodel_from_file
 from typing import List, Optional
 
 from .planning import Planning
-from . import And, Or, Month, DayOfMonth, Hour
+from . import And, Month, DayOfMonth, Hour, Minute
 
 _MONTHS = {
     'january': 1,
@@ -38,7 +38,13 @@ class Parser(object):
             plannings.append(self.__of_month(model.of_month))
 
         if model.times is not None:
-            plannings.append(Hour(*[int(time.hour) for time in model.times.times]))
+            hours = []
+            minutes = []
+            for time in model.times.times:
+                hours.append(time.hour)
+                minutes.append(time.minute)
+
+            plannings.append(And(Hour(*hours), Minute(*minutes)))
 
         if len(plannings) == 1:
             return plannings[0]

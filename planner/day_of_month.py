@@ -9,7 +9,7 @@ _LAST_DAY_OF_MONTH = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
 class DayOfMonth(Planning):
     def __init__(self, day: int, *days: int):
-        self.__days = {day, *days}
+        self.__days = [int(d) for d in [day, *days]]
         for day in self.__days:
             assert 1 <= abs(day) <= 31
 

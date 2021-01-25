@@ -6,7 +6,7 @@ from .planning import Planning
 
 class Hour(Planning):
     def __init__(self, hour: int, *hours: int):
-        self.__hours = sorted({hour, *hours})
+        self.__hours = [int(h) for h in sorted([hour, *hours])]
         for hour in self.__hours:
             assert 1 <= hour <= 24
 

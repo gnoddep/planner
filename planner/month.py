@@ -6,7 +6,7 @@ from .planning import Planning
 
 class Month(Planning):
     def __init__(self, month: int, *months: int):
-        self.__months = sorted({month, *months})
+        self.__months = [int(m) for m in sorted([month, *months])]
         for month in self.__months:
             assert 1 <= month <= 12
 
